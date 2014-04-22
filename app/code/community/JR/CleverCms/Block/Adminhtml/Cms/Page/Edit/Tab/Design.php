@@ -56,9 +56,6 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Design
             'values'   => Mage::getSingleton('catalog/category_attribute_source_layout')->getAllOptions(),
             'disabled' => $isElementDisabled
         ));
-        if (!$model->getId()) {
-            $model->setRootTemplate(Mage::getSingleton('page/source_layout')->getDefaultValue());
-        }
 
         $layoutFieldset->addField('layout_update_xml', 'textarea', array(
             'name'      => 'layout_update_xml',
