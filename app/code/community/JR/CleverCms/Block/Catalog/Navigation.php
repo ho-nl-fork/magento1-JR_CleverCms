@@ -4,18 +4,6 @@ class JR_CleverCms_Block_Catalog_Navigation extends Mage_Catalog_Block_Navigatio
 {
     const CACHE_TAG = 'catalog_navigation';
 
-    protected function _construct()
-    {
-        $this->addData(array(
-            'cache_lifetime' => false,
-            'cache_tags'     => array(
-                Mage_Catalog_Model_Category::CACHE_TAG,
-                Mage_Core_Model_Store_Group::CACHE_TAG,
-                self::CACHE_TAG,
-            ),
-        ));
-    }
-
     public function getCacheKeyInfo()
     {
         $shortCacheId = array(
@@ -36,7 +24,7 @@ class JR_CleverCms_Block_Catalog_Navigation extends Mage_Catalog_Block_Navigatio
         $shortCacheId = md5($shortCacheId);
 
         $cacheId['category_path'] = $this->getCurrenCategoryKey();
-        $cacheId['page_id'] = $this->getCurrentCmsPage() ? $this->getCurrentCmsPage()->getId() : false;
+
         $cacheId['short_cache_id'] = $shortCacheId;
 
         return $cacheId;

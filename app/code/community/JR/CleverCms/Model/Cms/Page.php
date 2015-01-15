@@ -95,6 +95,10 @@ class JR_CleverCms_Model_Cms_Page extends Mage_Cms_Model_Page
         return $this;
     }
 
+
+    /**
+     * @return JR_CleverCms_Model_Resource_Cms_Page_Collection
+     */
     public function getChildren()
     {
         return $this->getCollection()->addChildrenFilter($this);
