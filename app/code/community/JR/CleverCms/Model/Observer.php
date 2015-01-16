@@ -59,10 +59,9 @@ class JR_CleverCms_Model_Observer
 
         $pageId = Mage::getStoreConfig(Mage_Cms_Helper_Page::XML_PATH_HOME_PAGE);
 
-
         $nodeData = array(
             'name'      => $menuBlock->__('Home'),
-            'id'        => $pageId,
+            'id'        => 'cms-node-'.$pageId,
             'url'       => Mage::getBaseUrl(),
             'is_active' => $isActive
         );
