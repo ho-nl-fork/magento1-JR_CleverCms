@@ -132,6 +132,7 @@ class JR_CleverCms_Model_Observer
             $nodeData = array(
                 'name'      => $cmsPage->getTitle(),
                 'id'        => $nodeId,
+                'class'     => $cmsPage->getIdentifier(),
                 'url'       => $cmsPage->getUrl(),
                 'is_active' => $this->_isActiveMenuCmsPage($cmsPage)
             );
