@@ -22,6 +22,9 @@
 class JR_CleverCms_Model_Observer
 {
 
+    /**
+     * @param Varien_Event_Observer $observer
+     */
     public function addCleverCmsNodes(Varien_Event_Observer $observer)
     {
         /** @var Varien_Data_Tree_Node $menu */
@@ -36,6 +39,10 @@ class JR_CleverCms_Model_Observer
 
         $this->_addCmsPagesToMenu(
             $this->_getChildren($this->getCmsRootPage()), $menu, $block, true
+        );
+
+        $this->_addCmsPagesToMenu(
+            $this->_getChildren($this->getCmsRootPage(0)), $menu, $block, true
         );
     }
 
@@ -167,10 +174,14 @@ class JR_CleverCms_Model_Observer
     /**
      * Return the root CMS page for this store
      *
+     * @param null|int $storeId
      * @return JR_CleverCms_Model_Cms_Page
      */
-    public function getCmsRootPage()
+    public function getCmsRootPage($storeId = null)
     {
-        return Mage::getModel('cms/page')->loadRootByStoreId(Mage::app()->getStore()->getId());
+        if (is_null($storeId)) {
+            $storeId = Mage::app()->getStore()->getId();
+        }
+        return Mage::getModel('cms/page')->loadRootByStoreId($storeId);
     }
 }
