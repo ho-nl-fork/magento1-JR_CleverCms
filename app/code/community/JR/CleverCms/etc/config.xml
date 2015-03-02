@@ -139,28 +139,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <menu>
-            <cms translate="title" module="cms">
-                <title>CMS</title>
-                <sort_order>70</sort_order>
-                <children>
-                    <page translate="title" module="reports">
-                        <title>Pages</title>
-                        <action/>
-                        <children>
-                            <content translate="title" module="reports">
-                                <title>Manage Content</title>
-                                <action>adminhtml/cms_page</action>
-                            </content>
-                            <permissions translate="title" module="reports">
-                                <title>Manage Permissions</title>
-                                <action>adminhtml/cms_page_permissions</action>
-                            </permissions>
-                        </children>
-                    </page>
-                </children>
-             </cms>
-        </menu>
         <translate>
             <modules>
                 <JR_CleverCms>
