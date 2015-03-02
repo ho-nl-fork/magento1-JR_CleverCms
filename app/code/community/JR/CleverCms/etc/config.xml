@@ -139,6 +139,13 @@
         </routers>
     </admin>
     <adminhtml>
+        <layout>
+            <updates>
+                <jr_clevercms module="JR_CleverCms">
+                    <file>jr_clevercms.xml</file>
+                </jr_clevercms>
+            </updates>
+        </layout>
         <translate>
             <modules>
                 <JR_CleverCms>

@@ -33,7 +33,7 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Tree extends Mage_Adminhtml_Block_Te
         $this->setChild('store_switcher',
             $this->getLayout()->createBlock('adminhtml/store_switcher')
                 ->setSwitchUrl($this->getUrl('*/*/switch', array('_current'=>true, '_query'=>false, 'store'=>null)))
-                ->setTemplate('cms/page/store/switcher.phtml')
+                ->setTemplate('clevercms/page/store/switcher.phtml')
         );
         return parent::_prepareLayout();
     }

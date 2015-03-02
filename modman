@@ -1,6 +1,7 @@
 app/code/community/JR/CleverCms                          app/code/community/JR/CleverCms
 app/etc/modules/*                                        app/etc/modules
-app/design/adminhtml/default/clever                      app/design/adminhtml/default/clever
+app/design/adminhtml/default/default/layout/*            app/design/adminhtml/default/default/layout/
+app/design/adminhtml/default/default/template/*          app/design/adminhtml/default/default/template/
 app/design/frontend/base/default/template/jr_clevercms   app/design/frontend/base/default/template/jr_clevercms
 app/design/frontend/base/default/layout/*                app/design/frontend/base/default/layout/
 app/locale/fr_FR/*                                       app/locale/fr_FR/

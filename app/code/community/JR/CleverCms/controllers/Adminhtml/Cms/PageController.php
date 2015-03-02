@@ -7,7 +7,6 @@ class JR_CleverCms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_PageC
     public function preDispatch()
     {
         parent::preDispatch();
-        Mage::getDesign()->setTheme('clever');
 
         return $this;
     }
@@ -113,7 +112,7 @@ class JR_CleverCms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_PageC
             ->_addBreadcrumb($id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'), $id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'));
 
         if ($this->getRequest()->isXmlHttpRequest()) {
-            $this->getLayout()->getBlock('root')->setTemplate('cms/page/ajax-edit.phtml');
+            $this->getLayout()->getBlock('root')->setTemplate('clevercms/page/ajax-edit.phtml');
         }
 
         $this->renderLayout();
