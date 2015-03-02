@@ -13,7 +13,6 @@
 "URL Key","Clé d'url"
 "Include in Navigation Menu","Inclure dans le menu de navigation"
 "Leave blank for automatic generation.<br />URL is relative to parent URL. Current URL: %s","Laissez vide pour génération automatique.<br />L'url est relative à l'url de la page parente. URL actuelle : %s"
-"Set <em>clever</em> theme and <em>default</em> package to have an example of navigation","Activez le thème <em>clever</em> et le package <em>default</em> pour avoir un exemple de navigation"
 "Create Permanent Redirect for URLs if URL Key Changed","Créer des redirections d'URL permanentes si celles-ci changent"
 "Add Page", "Ajouter une page"
 "Save Page", "Sauvegarder la page"

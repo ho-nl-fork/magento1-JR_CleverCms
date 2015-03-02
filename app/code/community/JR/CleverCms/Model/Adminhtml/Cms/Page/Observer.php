@@ -46,7 +46,6 @@ class JR_CleverCms_Model_Adminhtml_Cms_Page_Observer
             'name'     => 'include_in_menu',
             'label'    => Mage::helper('cms')->__('Include in Navigation Menu'),
             'title'    => Mage::helper('cms')->__('Include in Navigation Menu'),
-            'note'     => Mage::helper('cms')->__('Set <em>clever</em> theme and <em>default</em> package to have an example of navigation'),
             'values'   => array('1' => Mage::helper('adminhtml')->__('Yes'), '0' => Mage::helper('adminhtml')->__('No')),
             'disabled' => $includeInMenuDisabled,
         ));
