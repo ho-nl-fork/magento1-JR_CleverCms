@@ -42,6 +42,8 @@ class JR_CleverCms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_PageC
             if ($page->getId()) {
                 Mage::register('cms_page', $page);
             }
+        } else {
+            Mage::register('cms_page', Mage::getModel('cms/page'));
         }
 
         $this->_title($this->__('CMS'))
