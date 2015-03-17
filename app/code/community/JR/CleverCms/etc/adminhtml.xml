@@ -22,20 +22,25 @@
 
 <config>
     <menu>
-        <cms translate="title" module="cms">
-            <title>CMS</title>
-            <sort_order>70</sort_order>
+        <cms>
             <children>
                 <page>
-                    <action/>
                     <children>
                         <content translate="title" module="jr_clevercms">
                             <title>Manage Content</title>
                             <action>adminhtml/cms_page</action>
+                            <depends>
+                                <module>JR_CleverCms</module>
+                                <config>cms/clever/permissions_enabled</config>
+                            </depends>
                         </content>
                         <permissions translate="title" module="jr_clevercms">
                             <title>Manage Permissions</title>
                             <action>adminhtml/cms_page_permissions</action>
+                            <depends>
+                                <module>JR_CleverCms</module>
+                                <config>cms/clever/permissions_enabled</config>
+                            </depends>
                         </permissions>
                     </children>
                 </page>

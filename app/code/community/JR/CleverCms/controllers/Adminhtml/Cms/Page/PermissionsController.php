@@ -16,7 +16,6 @@ class JR_CleverCms_Adminhtml_Cms_Page_PermissionsController extends Mage_Adminht
     public function preDispatch()
     {
         parent::preDispatch();
-        Mage::getDesign()->setTheme('clever');
 
         return $this;
     }
