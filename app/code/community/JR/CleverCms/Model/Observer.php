@@ -99,7 +99,9 @@ class JR_CleverCms_Model_Observer
         $childCollection->addFieldToFilter('include_in_menu', 1);
 
         if (Mage::helper('cms/page')->isPermissionsEnabled(Mage::app()->getStore())) {
-            $childCollection->addPermissionsFilter($this->getCustomerGroupId());
+            $childCollection->addPermissionsFilter(
+                Mage::getSingleton('customer/session')->getCustomerGroupId()
+            );
         }
 
 //        if ($level = Mage::getStoreConfig('catalog/navigation/max_depth')) {
