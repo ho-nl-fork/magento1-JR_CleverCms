@@ -10,11 +10,6 @@ class JR_CleverCms_Model_Adminhtml_Cms_Page_Observer
 
         // add our 'url_key' field so that users can set a URL identifier independent of the CMS page title
         if ($page->getPageId()) {
-            $store = Mage::app()->getStore($page->getStoreId());
-            $storeCode = null;
-            if (Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)) {
-                $storeCode = $store->getCode() . '/';
-            }
             // disable the 'url key' and 'include in menu' configuration options for the root CMS page
             if ($page->isRoot()) {
                 $includeInMenuDisabled = $urlKeyDisabled = true;
@@ -25,7 +20,7 @@ class JR_CleverCms_Model_Adminhtml_Cms_Page_Observer
             'name'     => 'url_key',
             'label'    => Mage::helper('cms')->__('URL Key'),
             'title'    => Mage::helper('cms')->__('URL Key'),
-            'note'     => Mage::helper('cms')->__('Leave blank for automatic generation.<br />URL is relative to parent URL. Current URL: %s', $page->getUrl()),
+            'note'     => Mage::helper('cms')->__('Leave blank for automatic generation.<br />URL is relative to parent URL.'),
             'value'    => $page->getIdentifier(),
             'disabled' => $urlKeyDisabled
         ));
