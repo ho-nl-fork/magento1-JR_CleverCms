@@ -30,8 +30,10 @@ class JR_CleverCms_Model_Observer
         /** @var Varien_Data_Tree_Node $menu */
         $menu = $observer->getData('menu');
 
-        $block = $observer->getEvent()->getBlock();
-        $block->addCacheTag(Mage_Cms_Model_Page::CACHE_TAG);
+        $block = $observer->getEvent()->getBlock() ?: Mage::app()->getLayout()->getBlock('top.menu');
+        if (method_exists($block, 'addCacheTags')) {
+            $block->addCacheTag(Mage_Cms_Model_Page::CACHE_TAG);
+        }
 
         if (Mage::getStoreConfigFlag('cms/clever/show_homepage_link')) {
             $this->_addHomePageToMenu($menu, $block, true);
@@ -126,7 +128,7 @@ class JR_CleverCms_Model_Observer
             /** @var JR_CleverCms_Model_Cms_Page $cmsPage */
             $nodeId = 'cms-node-' . $cmsPage->getId();
 
-            if ($addTags) {
+            if ($addTags && method_exists($menuBlock, 'addModelTags')) {
                 $menuBlock->addModelTags($cmsPage);
             }
 
