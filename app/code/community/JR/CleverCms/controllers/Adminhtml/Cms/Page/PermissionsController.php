@@ -76,4 +76,8 @@ class JR_CleverCms_Adminhtml_Cms_Page_PermissionsController extends Mage_Adminht
         $this->_redirect('*/*/', array('store' => $storeId, 'group' => $customerGroupId));
         return;
     }
+    function _isAllowed()
+    {
+        return true;
+    }
 }

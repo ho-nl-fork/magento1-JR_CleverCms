@@ -262,4 +262,8 @@ class JR_CleverCms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_PageC
             ->unsLastEditedPage();
         $this->_forward('index');
     }
+    function _isAllowed()
+    {
+        return true;
+    }
 }
