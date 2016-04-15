@@ -179,7 +179,7 @@ class JR_CleverCms_Block_Cms_Navigation
         }
         $htmlLi .= '>';
         $html[] = $htmlLi;
-        $html[] .= '<a href="'. $page->getUrl() . "/" .'"'.$linkClass.'>';
+        $html[] .= '<a href="'. $page->getUrl() .'"'.$linkClass.'>';
         $html[] .= '<span>'. $this->escapeHtml($page->getTitle()) .'</span>';
         $html[] .= '</a>';
 
