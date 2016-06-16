@@ -51,6 +51,6 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit extends Mage_Adminhtml_Block_Cm
 
     public function getTabsHtml()
     {
-        return $this->getLayout()->getBlock('cms_page_edit_tabs')->toHtml();
+        return $this->getLayout()->getBlock('cms_page_edit_store_tabs')->toHtml();
     }
 }
