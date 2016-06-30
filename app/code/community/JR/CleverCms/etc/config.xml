@@ -66,6 +66,7 @@
                     <cms_page_edit>JR_CleverCms_Block_Adminhtml_Cms_Page_Edit</cms_page_edit>
                     <cms_page_widget_chooser>JR_CleverCms_Block_Adminhtml_Cms_Page_Widget_Chooser</cms_page_widget_chooser>
                     <cms_page_edit_tab_design>JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Design</cms_page_edit_tab_design>
+                    <cms_page_edit_tab_content>JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Content</cms_page_edit_tab_content>
                 </rewrite>
             </adminhtml>
         </blocks>
