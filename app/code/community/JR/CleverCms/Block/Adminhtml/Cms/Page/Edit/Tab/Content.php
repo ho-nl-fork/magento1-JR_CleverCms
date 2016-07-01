@@ -22,8 +22,15 @@
 class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Content
     extends Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 {
+    /**
+     * @var Mage_Core_Model_Store
+     */
+    protected $_store = null;
+
     protected function _prepareForm()
     {
+        $helper = Mage::helper('jr_clevercms/cms_page');
+
         /** @var $model Mage_Cms_Model_Page */
         $model = Mage::registry('cms_page');
 
@@ -36,30 +43,41 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Content
             $isElementDisabled = true;
         }
 
+        $store = $this->getStore();
+        $model = Mage::helper('jr_clevercms/cms_page')->getPage($model, $store);
 
         $form = new Varien_Data_Form();
 
         $form->setHtmlIdPrefix('page_');
 
-        $fieldset = $form->addFieldset('content_fieldset', array('legend'=>Mage::helper('cms')->__('Content'),'class'=>'fieldset-wide'));
+        $fieldset = $form->addFieldset('content_fieldset', array('legend' => $helper->__('Content'), 'class' => 'fieldset-wide'));
 
         $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(
             array('tab_id' => $this->getTabId())
         );
 
-        $fieldset->addField('content_heading', 'text', array(
-            'name'      => 'content_heading',
-            'label'     => Mage::helper('cms')->__('Content Heading'),
-            'title'     => Mage::helper('cms')->__('Content Heading'),
-            'disabled'  => $isElementDisabled
+        $useStoreId = $fieldset->addField('page[' . $store->getId() . '][use_store_id]', 'select', [
+            'name'      => 'block[' . $store->getId() . '][use_store_id]',
+            'label'     => $helper->__('Use Store View'),
+            'title'     => $helper->__('Use Store View'),
+            'values'    => Mage::getSingleton('ho_cms/system_store')->getOptions($store->getId()),
+            'value'     => $helper->getUseStoreIdValue($model, $store),
+        ]);
+
+        $fieldset->addField('page[' . $store->getId() . '][content_heading]', 'text', array(
+            'name'      => 'page[' . $store->getId() . '][content_heading]',
+            'label'     => $helper->__('Content Heading'),
+            'title'     => $helper->__('Content Heading'),
+            'disabled'  => $isElementDisabled,
+            'value'     => $model ? $model->getContentHeading() : '',
         ));
 
-        $contentField = $fieldset->addField('content', 'editor', array(
-            'name'      => 'content',
+        $contentField = $fieldset->addField('page[' . $store->getId() . '][content]', 'editor', array(
+            'name'      => 'page[' . $store->getId() . '][content]',
             'style'     => 'height:36em;',
-            'required'  => true,
             'disabled'  => $isElementDisabled,
-            'config'    => $wysiwygConfig
+            'config'    => $wysiwygConfig,
+            'value'     => $model ? $model->getContent() : '',
         ));
 
         // Setting custom renderer for content field to remove label column
@@ -67,11 +85,28 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Content
             ->setTemplate('cms/page/edit/form/renderer/content.phtml');
         $contentField->setRenderer($renderer);
 
-        $form->setValues($model->getData());
         $this->setForm($form);
 
         Mage::dispatchEvent('adminhtml_cms_page_edit_tab_content_prepare_form', array('form' => $form));
 
         return Mage_Adminhtml_Block_Widget_Form::_prepareForm();
+    }
+
+    /**
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->_store;
+    }
+
+    /**
+     * @param Mage_Core_Model_Store $store
+     * @return $this
+     */
+    public function setStore($store)
+    {
+        $this->_store = $store;
+        return $this;
     }
 }
