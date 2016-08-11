@@ -22,8 +22,18 @@
 class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Meta
     extends Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
 {
+    /**
+     * @var Mage_Core_Model_Store
+     */
+    protected $_store = null;
+
     protected function _prepareForm()
     {
+        $helper = Mage::helper('jr_clevercms/cms_page');
+
+        /** @var $model Mage_Cms_Model_Page */
+        $model = Mage::registry('cms_page');
+
         /*
          * Checking if user have permissions to save information
          */
@@ -33,34 +43,61 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Meta
             $isElementDisabled = true;
         }
 
+        $store = $this->getStore();
+        $model = $helper->getPage($model, $store);
+
         $form = new Varien_Data_Form();
 
         $form->setHtmlIdPrefix('page_');
 
-        $model = Mage::registry('cms_page');
+        $fieldset = $form->addFieldset('meta_fieldset', ['legend' => $helper->__('Meta Data'), 'class' => 'fieldset-wide']);
 
-        $fieldset = $form->addFieldset('meta_fieldset', array('legend' => Mage::helper('cms')->__('Meta Data'), 'class' => 'fieldset-wide'));
+        $useStoreId = $fieldset->addField('page[meta][' . $store->getId() . '][use_store_id]', 'select', [
+            'name'      => 'page[meta][' . $store->getId() . '][use_store_id]',
+            'label'     => $helper->__('Use Store View'),
+            'title'     => $helper->__('Use Store View'),
+            'values'    => Mage::getSingleton('ho_cms/system_store')->getOptions($store->getId()),
+            'value'     => $helper->getUseStoreIdValue($model, $store),
+        ]);
 
-        $fieldset->addField('meta_keywords', 'textarea', array(
-            'name' => 'meta_keywords',
-            'label' => Mage::helper('cms')->__('Keywords'),
-            'title' => Mage::helper('cms')->__('Meta Keywords'),
-            'disabled'  => $isElementDisabled
-        ));
+        $fieldset->addField('page[meta][' . $store->getId() . '][meta_keywords]', 'textarea', [
+            'name'      => 'page[meta][' . $store->getId() . '][meta_keywords]',
+            'label'     => $helper->__('Keywords'),
+            'title'     => $helper->__('Meta Keywords'),
+            'disabled'  => $isElementDisabled,
+            'value'     => $model ? $model->getMetaKeywords() : '',
+        ]);
 
-        $fieldset->addField('meta_description', 'textarea', array(
-            'name' => 'meta_description',
-            'label' => Mage::helper('cms')->__('Description'),
-            'title' => Mage::helper('cms')->__('Meta Description'),
-            'disabled'  => $isElementDisabled
-        ));
+        $fieldset->addField('page[meta][' . $store->getId() . '][meta_description]', 'textarea', [
+            'name'      => 'page[meta][' . $store->getId() . '][meta_description]',
+            'label'     => $helper->__('Description'),
+            'title'     => $helper->__('Meta Description'),
+            'disabled'  => $isElementDisabled,
+            'value'     => $model ? $model->getMetaDescription() : '',
+        ]);
 
-        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_meta_prepare_form', array('form' => $form));
-
-        $form->setValues($model->getData());
+        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_meta_prepare_form', ['form' => $form]);
 
         $this->setForm($form);
 
         return Mage_Adminhtml_Block_Widget_Form::_prepareForm();
+    }
+
+    /**
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return $this->_store;
+    }
+
+    /**
+     * @param Mage_Core_Model_Store $store
+     * @return $this
+     */
+    public function setStore($store)
+    {
+        $this->_store = $store;
+        return $this;
     }
 }
