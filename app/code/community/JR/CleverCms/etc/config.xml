@@ -83,15 +83,16 @@
             </jr_clevercms>
         </helpers>
         <events>
-            <adminhtml_cms_page_edit_tab_main_prepare_form>
-                <observers>
-                    <clever_cms>
-                        <type>singleton</type>
-                        <class>jr_clevercms/adminhtml_cms_page_observer</class>
-                        <method>prepareForm</method>
-                    </clever_cms>
-                </observers>
-            </adminhtml_cms_page_edit_tab_main_prepare_form>
+            <!-- @todo add field dependency (implement in block instead of observer?) -->
+            <!--<adminhtml_cms_page_edit_tab_main_prepare_form>-->
+                <!--<observers>-->
+                    <!--<clever_cms>-->
+                        <!--<type>singleton</type>-->
+                        <!--<class>jr_clevercms/adminhtml_cms_page_observer</class>-->
+                        <!--<method>prepareForm</method>-->
+                    <!--</clever_cms>-->
+                <!--</observers>-->
+            <!--</adminhtml_cms_page_edit_tab_main_prepare_form>-->
             <cms_page_prepare_save>
                 <observers>
                     <clever_cms>

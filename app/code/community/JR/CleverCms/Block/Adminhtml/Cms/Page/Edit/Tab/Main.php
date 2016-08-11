@@ -91,7 +91,7 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Main
          * Check is single store mode
          */
         if (!Mage::app()->isSingleStoreMode()) {
-            $field = $fieldset->addField('page[main][' . $store->getId() . '][stores]', 'multiselect', [
+            $stores = $field = $fieldset->addField('page[main][' . $store->getId() . '][stores]', 'multiselect', [
                 'name'      => 'page[main][' . $store->getId() . '][stores][]',
                 'label'     => $helper->__('Store View'),
                 'title'     => $helper->__('Store View'),
@@ -103,14 +103,14 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Main
             $field->setRenderer($renderer);
         }
         else {
-            $fieldset->addField('page[main][' . $store->getId() . '][stores]', 'hidden', [
+            $stores = $fieldset->addField('page[main][' . $store->getId() . '][stores]', 'hidden', [
                 'name'      => 'page[main][' . $store->getId() . '][stores][]',
                 'value'     => Mage::app()->getStore(true)->getId(),
             ]);
             $model->setStoreId(Mage::app()->getStore(true)->getId());
         }
 
-        $fieldset->addField('is_active', 'select', array(
+        $isActive = $fieldset->addField('is_active', 'select', array(
             'label'     => Mage::helper('cms')->__('Status'),
             'title'     => Mage::helper('cms')->__('Page Status'),
             'name'      => 'is_active',
@@ -123,6 +123,22 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Main
 //        if (!$model->getId()) {
 //            $model->setData('is_active', $isElementDisabled ? '0' : '1');
 //        }
+
+        /** @var Mage_Adminhtml_Block_Widget_Form_Element_Dependence $dependence */
+        $dependence = $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence');
+        $dependence
+            ->addFieldMap($useStoreId->getHtmlId(), $useStoreId->getName())
+            ->addFieldMap($title->getHtmlId(), $title->getName())
+            ->addFieldMap($identifier->getHtmlId(), $identifier->getName())
+            ->addFieldMap($stores->getHtmlId(), $stores->getName())
+            ->addFieldMap($isActive->getHtmlId(), $isActive->getName())
+            ->addFieldDependence($title->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($identifier->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($stores->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($isActive->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+        ;
+
+        $this->setChild('form_after', $dependence);
 
         Mage::dispatchEvent('adminhtml_cms_page_edit_tab_main_prepare_form', array('form' => $form));
 
