@@ -67,7 +67,7 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Main
             'value'     => $helper->getUseStoreIdValue($model, $store),
         ]);
 
-        $fieldset->addField('page[main][' . $store->getId() . '][title]', 'text', [
+        $title = $fieldset->addField('page[main][' . $store->getId() . '][title]', 'text', [
             'name'      => 'page[main][' . $store->getId() . '][title]',
             'label'     => $helper->__('Page Title'),
             'title'     => $helper->__('Page Title'),
@@ -76,7 +76,7 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Main
             'value'     => $model ? $model->getTitle() : '',
         ]);
 
-        $fieldset->addField('page[main][' . $store->getId() . '][identifier]', 'text', [
+        $identifier = $fieldset->addField('page[main][' . $store->getId() . '][identifier]', 'text', [
             'name'      => 'page[main][' . $store->getId() . '][identifier]',
             'label'     => $helper->__('URL Key'),
             'title'     => $helper->__('URL Key'),
@@ -91,22 +91,22 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Main
          * Check is single store mode
          */
         if (!Mage::app()->isSingleStoreMode()) {
-            $field = $fieldset->addField('store_id', 'multiselect', array(
-                'name'      => 'stores[]',
-                'label'     => Mage::helper('cms')->__('Store View'),
-                'title'     => Mage::helper('cms')->__('Store View'),
+            $field = $fieldset->addField('page[main][' . $store->getId() . '][stores]', 'multiselect', [
+                'name'      => 'page[main][' . $store->getId() . '][stores][]',
+                'label'     => $helper->__('Store View'),
+                'title'     => $helper->__('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
                 'disabled'  => $isElementDisabled,
-            ));
+            ]);
             $renderer = $this->getLayout()->createBlock('adminhtml/store_switcher_form_renderer_fieldset_element');
             $field->setRenderer($renderer);
         }
         else {
-            $fieldset->addField('store_id', 'hidden', array(
-                'name'      => 'stores[]',
-                'value'     => Mage::app()->getStore(true)->getId()
-            ));
+            $fieldset->addField('page[main][' . $store->getId() . '][stores]', 'hidden', [
+                'name'      => 'page[main][' . $store->getId() . '][stores][]',
+                'value'     => Mage::app()->getStore(true)->getId(),
+            ]);
             $model->setStoreId(Mage::app()->getStore(true)->getId());
         }
 
