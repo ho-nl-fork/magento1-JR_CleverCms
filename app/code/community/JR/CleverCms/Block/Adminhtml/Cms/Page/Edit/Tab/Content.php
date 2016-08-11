@@ -44,7 +44,7 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Content
         }
 
         $store = $this->getStore();
-        $model = Mage::helper('jr_clevercms/cms_page')->getPage($model, $store);
+        $model = $helper->getPage($model, $store);
 
         $form = new Varien_Data_Form();
 
@@ -56,24 +56,24 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Content
             array('tab_id' => $this->getTabId())
         );
 
-        $useStoreId = $fieldset->addField('page[' . $store->getId() . '][use_store_id]', 'select', [
-            'name'      => 'block[' . $store->getId() . '][use_store_id]',
+        $useStoreId = $fieldset->addField('page[content][' . $store->getId() . '][use_store_id]', 'select', [
+            'name'      => 'page[content][' . $store->getId() . '][use_store_id]',
             'label'     => $helper->__('Use Store View'),
             'title'     => $helper->__('Use Store View'),
             'values'    => Mage::getSingleton('ho_cms/system_store')->getOptions($store->getId()),
             'value'     => $helper->getUseStoreIdValue($model, $store),
         ]);
 
-        $fieldset->addField('page[' . $store->getId() . '][content_heading]', 'text', array(
-            'name'      => 'page[' . $store->getId() . '][content_heading]',
+        $fieldset->addField('page[content][' . $store->getId() . '][content_heading]', 'text', array(
+            'name'      => 'page[content][' . $store->getId() . '][content_heading]',
             'label'     => $helper->__('Content Heading'),
             'title'     => $helper->__('Content Heading'),
             'disabled'  => $isElementDisabled,
             'value'     => $model ? $model->getContentHeading() : '',
         ));
 
-        $contentField = $fieldset->addField('page[' . $store->getId() . '][content]', 'editor', array(
-            'name'      => 'page[' . $store->getId() . '][content]',
+        $contentField = $fieldset->addField('page[content][' . $store->getId() . '][content]', 'editor', array(
+            'name'      => 'page[content][' . $store->getId() . '][content]',
             'style'     => 'height:36em;',
             'disabled'  => $isElementDisabled,
             'config'    => $wysiwygConfig,
