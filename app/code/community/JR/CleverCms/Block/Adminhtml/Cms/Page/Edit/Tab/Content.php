@@ -64,26 +64,40 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Content
             'value'     => $helper->getUseStoreIdValue($model, $store),
         ]);
 
-        $fieldset->addField('page[content][' . $store->getId() . '][content_heading]', 'text', array(
+        $heading = $fieldset->addField('page[content][' . $store->getId() . '][content_heading]', 'text', [
             'name'      => 'page[content][' . $store->getId() . '][content_heading]',
             'label'     => $helper->__('Content Heading'),
             'title'     => $helper->__('Content Heading'),
             'disabled'  => $isElementDisabled,
             'value'     => $model ? $model->getContentHeading() : '',
-        ));
+        ]);
 
-        $contentField = $fieldset->addField('page[content][' . $store->getId() . '][content]', 'editor', array(
+        $content = $contentField = $fieldset->addField('page[content][' . $store->getId() . '][content]', 'editor', [
             'name'      => 'page[content][' . $store->getId() . '][content]',
             'style'     => 'height:36em;',
             'disabled'  => $isElementDisabled,
             'config'    => $wysiwygConfig,
             'value'     => $model ? $model->getContent() : '',
-        ));
+        ]);
 
         // Setting custom renderer for content field to remove label column
         $renderer = $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset_element')
             ->setTemplate('cms/page/edit/form/renderer/content.phtml');
         $contentField->setRenderer($renderer);
+
+        /** @var Mage_Adminhtml_Block_Widget_Form_Element_Dependence $dependence */
+        $dependence = $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence');
+        $dependence
+            ->addFieldMap($useStoreId->getHtmlId(), $useStoreId->getName())
+            ->addFieldMap($heading->getHtmlId(), $heading->getName())
+            ->addFieldDependence($heading->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT);
+
+        // @todo Hide content field when Markdown is enabled, field dependency doesn't work
+        if (! Mage::helper('core')->isModuleEnabled('SchumacherFM_Markdown')) {
+            $dependence->addFieldDependence($content->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT);
+        }
+
+        $this->setChild('form_after', $dependence);
 
         $this->setForm($form);
 
