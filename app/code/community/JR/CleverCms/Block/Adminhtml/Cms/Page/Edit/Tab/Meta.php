@@ -60,7 +60,7 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Meta
             'value'     => $helper->getUseStoreIdValue($model, $store),
         ]);
 
-        $fieldset->addField('page[meta][' . $store->getId() . '][meta_keywords]', 'textarea', [
+        $keywords = $fieldset->addField('page[meta][' . $store->getId() . '][meta_keywords]', 'textarea', [
             'name'      => 'page[meta][' . $store->getId() . '][meta_keywords]',
             'label'     => $helper->__('Keywords'),
             'title'     => $helper->__('Meta Keywords'),
@@ -68,13 +68,25 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Meta
             'value'     => $model ? $model->getMetaKeywords() : '',
         ]);
 
-        $fieldset->addField('page[meta][' . $store->getId() . '][meta_description]', 'textarea', [
+        $description = $fieldset->addField('page[meta][' . $store->getId() . '][meta_description]', 'textarea', [
             'name'      => 'page[meta][' . $store->getId() . '][meta_description]',
             'label'     => $helper->__('Description'),
             'title'     => $helper->__('Meta Description'),
             'disabled'  => $isElementDisabled,
             'value'     => $model ? $model->getMetaDescription() : '',
         ]);
+
+        /** @var Mage_Adminhtml_Block_Widget_Form_Element_Dependence $dependence */
+        $dependence = $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence');
+        $dependence
+            ->addFieldMap($useStoreId->getHtmlId(), $useStoreId->getName())
+            ->addFieldMap($keywords->getHtmlId(), $keywords->getName())
+            ->addFieldMap($description->getHtmlId(), $description->getName())
+            ->addFieldDependence($keywords->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($description->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+        ;
+
+        $this->setChild('form_after', $dependence);
 
         Mage::dispatchEvent('adminhtml_cms_page_edit_tab_meta_prepare_form', ['form' => $form]);
 
