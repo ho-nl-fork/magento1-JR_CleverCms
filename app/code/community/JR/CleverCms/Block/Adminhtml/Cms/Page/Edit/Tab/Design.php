@@ -69,14 +69,14 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Design
             'value'     => $helper->getUseStoreIdValue($model, $store),
         ]);
 
-        $layoutFieldset->addField('page[design][' . $store->getId() . '][root_template]', 'select', [
+        $rootTemplate = $layoutFieldset->addField('page[design][' . $store->getId() . '][root_template]', 'select', [
             'name'     => 'page[design][' . $store->getId() . '][root_template]',
             'label'    => $helper->__('Layouts'),
             'values'   => Mage::getSingleton('catalog/category_attribute_source_layout')->getAllOptions(),
             'disabled' => $isElementDisabled,
         ]);
 
-        $layoutFieldset->addField('page[design][' . $store->getId() . '][layout_update_xml]', 'textarea', [
+        $layoutUpdate = $layoutFieldset->addField('page[design][' . $store->getId() . '][layout_update_xml]', 'textarea', [
             'name'      => 'page[design][' . $store->getId() . '][layout_update_xml]',
             'label'     => $helper->__('Layout Update XML'),
             'style'     => 'height:24em;',
@@ -93,7 +93,7 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Design
             Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
         );
 
-        $designFieldset->addField('page[design][' . $store->getId() . '][custom_theme_from]', 'date', [
+        $customThemeFrom = $designFieldset->addField('page[design][' . $store->getId() . '][custom_theme_from]', 'date', [
             'name'      => 'page[design][' . $store->getId() . '][custom_theme_from]',
             'label'     => $helper->__('Custom Design From'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
@@ -101,7 +101,7 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Design
             'disabled'  => $isElementDisabled,
         ]);
 
-        $designFieldset->addField('page[design][' . $store->getId() . '][custom_theme_to]', 'date', [
+        $customThemeTo = $designFieldset->addField('page[design][' . $store->getId() . '][custom_theme_to]', 'date', [
             'name'      => 'page[design][' . $store->getId() . '][custom_theme_to]',
             'label'     => $helper->__('Custom Design To'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
@@ -109,26 +109,48 @@ class JR_CleverCms_Block_Adminhtml_Cms_Page_Edit_Tab_Design
             'disabled'  => $isElementDisabled,
         ]);
 
-        $designFieldset->addField('page[design][' . $store->getId() . '][custom_theme]', 'select', [
+        $customTheme = $designFieldset->addField('page[design][' . $store->getId() . '][custom_theme]', 'select', [
             'name'      => 'page[design][' . $store->getId() . '][custom_theme]',
             'label'     => $helper->__('Custom Theme'),
             'values'    => Mage::getModel('core/design_source_design')->getAllOptions(),
             'disabled'  => $isElementDisabled,
         ]);
 
-        $designFieldset->addField('page[design][' . $store->getId() . '][custom_root_template]', 'select', [
+        $customRootTemplate = $designFieldset->addField('page[design][' . $store->getId() . '][custom_root_template]', 'select', [
             'name'      => 'page[design][' . $store->getId() . '][custom_root_template]',
             'label'     => $helper->__('Custom Layout'),
             'values'    => Mage::getSingleton('catalog/category_attribute_source_layout')->getAllOptions(),
             'disabled'  => $isElementDisabled,
         ]);
 
-        $designFieldset->addField('page[design][' . $store->getId() . '][custom_layout_update_xml]', 'textarea', [
+        $customLayoutUpdate = $designFieldset->addField('page[design][' . $store->getId() . '][custom_layout_update_xml]', 'textarea', [
             'name'      => 'page[design][' . $store->getId() . '][custom_layout_update_xml]',
             'label'     => $helper->__('Custom Layout Update XML'),
             'style'     => 'height:24em;',
             'disabled'  => $isElementDisabled,
         ]);
+
+        /** @var Mage_Adminhtml_Block_Widget_Form_Element_Dependence $dependence */
+        $dependence = $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence');
+        $dependence
+            ->addFieldMap($useStoreId->getHtmlId(), $useStoreId->getName())
+            ->addFieldMap($rootTemplate->getHtmlId(), $rootTemplate->getName())
+            ->addFieldMap($layoutUpdate->getHtmlId(), $layoutUpdate->getName())
+            ->addFieldMap($customThemeFrom->getHtmlId(), $customThemeFrom->getName())
+            ->addFieldMap($customThemeTo->getHtmlId(), $customThemeTo->getName())
+            ->addFieldMap($customTheme->getHtmlId(), $customTheme->getName())
+            ->addFieldMap($customRootTemplate->getHtmlId(), $customRootTemplate->getName())
+            ->addFieldMap($customLayoutUpdate->getHtmlId(), $customLayoutUpdate->getName())
+            ->addFieldDependence($rootTemplate->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($layoutUpdate->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($customThemeFrom->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($customThemeTo->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($customTheme->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($customRootTemplate->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+            ->addFieldDependence($customLayoutUpdate->getName(), $useStoreId->getName(), $helper::TYPE_OWN_CONTENT)
+        ;
+
+        $this->setChild('form_after', $dependence);
 
         Mage::dispatchEvent('adminhtml_cms_page_edit_tab_design_prepare_form', ['form' => $form]);
 
