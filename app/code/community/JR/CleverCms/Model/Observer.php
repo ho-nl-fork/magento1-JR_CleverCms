@@ -39,13 +39,15 @@ class JR_CleverCms_Model_Observer
             $this->_addHomePageToMenu($menu, $block, true);
         }
 
-        $this->_addCmsPagesToMenu(
-            $this->_getChildren($this->getCmsRootPage()), $menu, $block, true
-        );
+        if (Mage::getStoreConfigFlag('cms/clever/show_cms_page_links')) {
+            $this->_addCmsPagesToMenu(
+                $this->_getChildren($this->getCmsRootPage()), $menu, $block, true
+            );
 
-        $this->_addCmsPagesToMenu(
-            $this->_getChildren($this->getCmsRootPage(0)), $menu, $block, true
-        );
+            $this->_addCmsPagesToMenu(
+                $this->_getChildren($this->getCmsRootPage(0)), $menu, $block, true
+            );
+        }
     }
 
 
