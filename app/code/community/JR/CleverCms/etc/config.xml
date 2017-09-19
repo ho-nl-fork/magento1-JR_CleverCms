@@ -132,7 +132,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <JR_CleverCms before="Mage_Adminhtml">JR_CleverCms_Adminhtml</JR_CleverCms>
+                        <JR_CleverCms before="Mage_Cms_Adminhtml">JR_CleverCms_Adminhtml</JR_CleverCms>
                     </modules>
                 </args>
             </adminhtml>
