@@ -156,4 +156,11 @@
             </modules>
         </translate>
     </adminhtml>
+    <default>
+        <cms>
+            <clever>
+                <show_cms_page_links>1</show_cms_page_links>
+            </clever>
+        </cms>
+    </default>
 </config>
